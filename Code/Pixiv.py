@@ -68,7 +68,20 @@ class Pixiv():
         url = f"https://www.pixiv.net/ajax/novel/{NoverID}?lang=zh"
         return self.get(url)
 
-    def get_bookmarks_by_uid(self, uid, tag="", offset=0, limit=48):
+    def get_bookmarks_by_uid(self, uid, tag="", p=0, limit=48):
         "tag是分类，默认未分类"
+        offset = p * limit
         url = f"https://www.pixiv.net/ajax/user/{uid}/illusts/bookmarks?tag={tag}&offset={offset}&limit={limit}&rest=show&lang=zh"
         return self.get(url)
+
+    def get_bookmarks_all(self, uid, tag=""):
+        fin = []
+        p = 0
+        r = self.get_bookmarks_by_uid(uid, tag)
+        while len(r["body"]["works"]) != 0:
+            for i in r["body"]["works"]:
+                fin.append(i["id"])
+            p += 1
+            r = self.get_bookmarks_by_uid(uid, tag, p=p)
+        print(f'收藏获取情况：{len(fin) == r["body"]["total"]}')
+        return fin

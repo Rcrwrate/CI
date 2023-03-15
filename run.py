@@ -12,10 +12,7 @@ parser = argparse.ArgumentParser(
 )
 parser.add_argument('-c', '--cookies', type=str,
                     dest="cookie", help='设置cookie', default=False)
-parser.add_argument("-d", "--download", "-i", "--id", type=int,
-                    help='下载某个串，中间无视其他优化选项', default=False)
-parser.add_argument("-o", "--output", type=str, nargs="?",
-                    help='输出选择,可选项:epub,txt,默认全部', default=["epub", "txt"])
+parser.add_argument("-t", "--tag",  type=str, help='收藏栏', default="")
 parser.add_argument("-uid", "--uid", type=str, help='用户UID', default=False)
 
 args = parser.parse_args()
@@ -49,6 +46,10 @@ def main(args):
             print(traceback.format_exc())
             time.sleep(5)
             ID(id)
+
+    L = P.get_bookmarks_all(args.uid, args.tag)
+    for i in L:
+        ID(i)
 
 
 main(args)
