@@ -32,9 +32,9 @@ def main(args):
     P = Pixiv(PHPSESSID=args.cookie)
 
     def save(url):
-        url = url.replace("i.pximg.net", P.Mirror)
+        # url = url.replace("i.pximg.net", P.Mirror)
         with open(os.path.join("image", url.split("/")[-1]), "wb") as f:
-            f.write(n.get(url).content)
+            f.write(n.get(url, timeout=(120, 180)).content)
 
     def ID(id):
         try:
