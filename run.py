@@ -16,6 +16,8 @@ parser.add_argument("-d", "--download", "-i", "--id", type=int,
                     help='下载某个串，中间无视其他优化选项', default=False)
 parser.add_argument("-o", "--output", type=str, nargs="?",
                     help='输出选择,可选项:epub,txt,默认全部', default=["epub", "txt"])
+parser.add_argument("-uid", "--uid", type=str, help='UID', default=False)
+
 args = parser.parse_args()
 
 
