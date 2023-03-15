@@ -33,8 +33,9 @@ def main(args):
 
     def save(url):
         # url = url.replace("i.pximg.net", P.Mirror)
+        url = url.replace("i.pximg.net", "i.pixiv.re")
         with open(os.path.join("image", url.split("/")[-1]), "wb") as f:
-            f.write(n.get(url, timeout=(120, 180)).content)
+            f.write(n.get(url, timeout=(10, 30)).content)
 
     def ID(id):
         try:
