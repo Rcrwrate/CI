@@ -32,6 +32,8 @@ jobs:
 
     - name: Clean
       run: |
+        rm -rf github-pages-deploy-action-temp-deployment-folder
+        rm -rf image
         python C.py --public ${{ secrets.PUBLIC }} --private ${{ secrets.PRIVATE }} --mode jiami
                         
     - name: Deploy
