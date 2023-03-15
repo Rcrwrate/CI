@@ -1,0 +1,31 @@
+name: test
+on:
+  push:
+    branches:
+    - main
+  schedule:
+    - cron: '0 21 * * *'
+    
+jobs:
+  main-to-gh-pages:
+    runs-on: ubuntu-latest
+        
+    steps:                          
+    - name: checkout main
+      uses: actions/checkout@v2
+      with:
+        ref: main
+               
+    - name: Build TXT
+      run: |
+        python run.py
+                        
+#     - name: Deploy
+#       uses: JamesIves/github-pages-deploy-action@3.7.1
+#       with:
+#         BRANCH: gh-pages
+#         FOLDER: output
+#         BASE_BRANCH: main
+                
+                
+                
