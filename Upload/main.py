@@ -88,4 +88,4 @@ def continue_up(local_path, remote_path):
 
 
 if __name__ == "__main__":
-    main("../Code", "Upload/PixivTest/PixivTest")
+    main("../image", "Upload/Pixiv/PixivTest")

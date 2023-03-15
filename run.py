@@ -22,7 +22,8 @@ args = parser.parse_args()
 
 
 def main(args):
-
+    if not os.path.exists("image"):
+        os.mkdir("image")
     print(args)
     if args.uid is False:
         print("UID未配置!")
@@ -32,9 +33,6 @@ def main(args):
         return None
     n = Network({"www.pixiv.net": {"ip": "210.140.92.193"}})
     P = Pixiv(PHPSESSID=args.cookie)
-
-    if not os.path.exists("image"):
-        os.mkdir("image")
 
     def save(url):
         url = url.replace("i.pximg.net", P.Mirror)
