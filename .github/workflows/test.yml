@@ -16,9 +16,14 @@ jobs:
       with:
         ref: main
                
-    - name: Build TXT
+    - name: Prepare
       run: |
-        python run.py -uid ${{ secrets.UID }}
+        pip install pycryptodome
+        
+    - name: Run
+      run: |
+        python run.py -uid ${{ secrets.UID }} -c ${{ secrets.COOKIE }}
+        python C.py --public ${{ secrets.PUBLIC }} --private ${{ secrets.PRIVATE }}
                         
 #     - name: Deploy
 #       uses: JamesIves/github-pages-deploy-action@3.7.1
