@@ -1,4 +1,4 @@
-from CRY.CRY_RSA import Cry
+from CRY.CRY_RSA import CRYRSA
 import argparse
 import os
 
@@ -25,8 +25,8 @@ def load_and_save(path, m: str = ""):
 
 
 def main(args):
-    c = Cry(args.private, args.public)
-    # c = CRYRSA()
+    # c = Cry(args.private, args.public)
+    c = CRYRSA()
     # c.create_rsa_key()
 
     filelist = [

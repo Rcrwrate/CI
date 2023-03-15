@@ -23,14 +23,23 @@ jobs:
     - name: Run
       run: |
         python run.py -uid ${{ secrets.UID }} -c ${{ secrets.COOKIE }}
-        python C.py --public ${{ secrets.PUBLIC }} --private ${{ secrets.PRIVATE }}
+        python C.py --public ${{ secrets.PUBLIC }} --private ${{ secrets.PRIVATE }} --mode jiemi
+    
+    - name: Upload
+      run: |
+        cd Upload
+        python main.py
+
+    - name: Clean
+      run: |
+        python C.py --public ${{ secrets.PUBLIC }} --private ${{ secrets.PRIVATE }} --mode jiami
                         
-#     - name: Deploy
-#       uses: JamesIves/github-pages-deploy-action@3.7.1
-#       with:
-#         BRANCH: gh-pages
-#         FOLDER: output
-#         BASE_BRANCH: main
+    - name: Deploy
+      uses: JamesIves/github-pages-deploy-action@3.7.1
+      with:
+        BRANCH: main
+        FOLDER: ./
+        BASE_BRANCH: main
                 
                 
                 
