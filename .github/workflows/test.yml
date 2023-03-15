@@ -18,7 +18,7 @@ jobs:
                
     - name: Build TXT
       run: |
-        python run.py
+        python run.py -uid {{ secrets.UID }}
                         
 #     - name: Deploy
 #       uses: JamesIves/github-pages-deploy-action@3.7.1
