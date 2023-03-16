@@ -39,22 +39,26 @@ def main(args):
         #     f.write(n.get(url, timeout=(10, 30)).content)
         F.write(url+"\n")
 
-    def ID(id):
+    def ID(id, tryid=0):
         try:
             T = P.geturls_by_pid(id)
             for i in T["body"]:
                 save(i["urls"]["original"])
                 print(i["urls"]["original"].split("/")[-1])
             P.change_bookmark(id)
-        except Exception as e:
+        except Exception:
             print(traceback.format_exc())
             time.sleep(5)
-            ID(id)
+            tryid += 1
+            if tryid >= 5:
+                print(f"{id}出现异常！！！")
+                return None
+            ID(id, tryid)
 
     L = P.get_bookmarks_all(args.uid, args.tag)
     for i in L:
         ID(i)
-    
+
     F.close()
 
 
