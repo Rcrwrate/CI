@@ -29,18 +29,20 @@ jobs:
     - name: Clean
       run: |
         python C.py --public ${{ secrets.PUBLIC }} --private ${{ secrets.PRIVATE }} --mode jiami
+        git init
+        git config user.name Rcrwrate
+        git config user.email 46920034+Rcrwrate@users.noreply.github.com
+        git add .
+        git commit -m "OA"
+        git push
 
-
-  Push:
-    runs-on: ubuntu-latest
-    needs: OA
-    steps:                     
-    - name: Deploy
-      uses: JamesIves/github-pages-deploy-action@3.7.1
-      with:
-        BRANCH: main
-        FOLDER: .
-        BASE_BRANCH: main
+                        
+    # - name: Deploy
+    #   uses: JamesIves/github-pages-deploy-action@3.7.1
+    #   with:
+    #     BRANCH: main
+    #     FOLDER: .
+    #     BASE_BRANCH: main
                 
                 
                 
