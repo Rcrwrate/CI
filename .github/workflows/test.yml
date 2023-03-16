@@ -41,7 +41,6 @@ jobs:
       with:
         BRANCH: main
         FOLDER: .
-        clean: true
         BASE_BRANCH: main
                 
                 
