@@ -1,17 +1,19 @@
 from Lib.Network import Network
+import re
 
 
 class Pixiv():
     "https://sirin.coding.net/public/api/Pixiv/git/files/master/method.py"
 
     header = {
-        "Host": "www.pixiv.net",
+        # "Host": "www.pixiv.net",
         "referer": "https://www.pixiv.net/",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.93 Safari/537.36 Edg/96.0.1054.53",
     }
     Mirror = "piv.deception.world"
     Logined = False
     "登录设置"
+    csrf = None
 
     def __init__(self, s=Network({"www.pixiv.net": {"ip": "210.140.92.193"}}), PHPSESSID="") -> None:
         '''
@@ -85,3 +87,38 @@ class Pixiv():
             r = self.get_bookmarks_by_uid(uid, tag, p=p)
         print(f'收藏获取情况：{len(fin) == r["body"]["total"]}')
         return fin
+
+    def remove_bookmark(self, bookmarkid, tag: list = ["save"]):
+        url = "https://www.pixiv.net/ajax/illusts/bookmarks/remove_tags"
+        r = self.s.post(url, json={"removeTags": tag,
+                                   "bookmarkIds": [str(bookmarkid)]}, headers={"x-csrf-token": self.csrf}
+                        ).json()
+        if r["message"] == "请重新登录。如果出现的问题仍未解决，请重新启动浏览器。":
+            self.get_csrf()
+            self.remove_bookmark(bookmarkid, tag)
+        return r["error"] == False
+
+    def add_bookmark(self, bookmarkid, tag: list = ["saved"]):
+        url = "https://www.pixiv.net/ajax/illusts/bookmarks/add_tags"
+        r = self.s.post(url, json={"tags": tag,
+                                   "bookmarkIds": [str(bookmarkid)]}, headers={"x-csrf-token": self.csrf}
+                        ).json()
+        if r["message"] == "请重新登录。如果出现的问题仍未解决，请重新启动浏览器。":
+            self.get_csrf()
+            self.add_bookmark(bookmarkid, tag)
+        return r["error"] == False
+
+    def change_bookmark(self, pid):
+        if self.csrf == None:
+            self.get_csrf()
+        bookmarkid = self.get_by_pid(pid)["body"]["bookmarkData"]["id"]
+        if self.remove_bookmark(bookmarkid, ["save"]):
+            if self.add_bookmark(bookmarkid, ["saved"]):
+                print(f"{pid}书签更新完成")
+                return None
+        print(f"{pid}书签更新异常")
+
+    def get_csrf(self):
+        r = self.s.get("https://www.pixiv.net/").text
+        self.csrf = re.findall(r'{\"token\":\"([\s\S]+?)\"', r)[0]
+        return self.csrf

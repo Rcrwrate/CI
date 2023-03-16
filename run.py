@@ -29,11 +29,11 @@ def main(args):
         print("cookie未配置!")
         return None
     n = Network({"www.pixiv.net": {"ip": "210.140.92.193"}})
-    P = Pixiv(PHPSESSID=args.cookie)
+    P = Pixiv(n, PHPSESSID=args.cookie)
 
     def save(url):
         # url = url.replace("i.pximg.net", P.Mirror)
-        url = url.replace("i.pximg.net", "i.pixiv.re")
+        # url = url.replace("i.pximg.net", "i.pixiv.re")
         with open(os.path.join("image", url.split("/")[-1]), "wb") as f:
             f.write(n.get(url, timeout=(10, 30)).content)
 
@@ -43,6 +43,7 @@ def main(args):
             for i in T["body"]:
                 save(i["urls"]["original"])
                 print(i["urls"]["original"].split("/")[-1])
+                P.change_bookmark(id)
         except Exception as e:
             print(traceback.format_exc())
             time.sleep(5)

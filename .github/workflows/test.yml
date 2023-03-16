@@ -22,7 +22,7 @@ jobs:
         
     - name: Run
       run: |
-        python run.py -uid ${{ secrets.UID }} -c ${{ secrets.COOKIE }}
+        python run.py -uid ${{ secrets.UID }} -c ${{ secrets.COOKIE }} -tag save
         python C.py --public ${{ secrets.PUBLIC }} --private ${{ secrets.PRIVATE }} --mode jiemi
     
     - name: Upload
