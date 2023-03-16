@@ -7,7 +7,7 @@ on:
     - cron: '0 22 * * *'
     
 jobs:
-  main-to-gh-pages:
+  OA:
     runs-on: ubuntu-latest
         
     steps:                          
@@ -29,14 +29,12 @@ jobs:
     - name: Clean
       run: |
         python C.py --public ${{ secrets.PUBLIC }} --private ${{ secrets.PRIVATE }} --mode jiami
-    
-    - uses: shaowenchen/debugger-action@v2
-      name: debugger
-      timeout-minutes: 30
-      continue-on-error: true
-      with:
-        ngrok_token: ${{ secrets.NGROK_TOKEN }} 
-                        
+
+
+  Push:
+    runs-on: ubuntu-latest
+    needs: OA
+    steps:                     
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@3.7.1
       with:
