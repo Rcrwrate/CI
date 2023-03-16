@@ -25,7 +25,7 @@ jobs:
         
     - name: Run
       run: |
-        python aria.py -uid ${{ secrets.UID }} -c ${{ secrets.COOKIE }} --tag save
+        python aria.py -uid ${{ secrets.UID }} -c ${{ secrets.COOKIE }} --tag 未分類
         cd image
         aria2c -c --input-file=urllist.txt
         rm -rf urllist.txt

@@ -112,10 +112,13 @@ class Pixiv():
         if self.csrf == None:
             self.get_csrf()
         bookmarkid = self.get_by_pid(pid)["body"]["bookmarkData"]["id"]
-        if self.remove_bookmark(bookmarkid, ["save"]):
-            if self.add_bookmark(bookmarkid, ["saved"]):
-                print(f"{pid}书签更新完成")
-                return None
+        # if self.remove_bookmark(bookmarkid, ["save"]):
+        #     if self.add_bookmark(bookmarkid, ["saved"]):
+        #         print(f"{pid}书签更新完成")
+        #         return None
+        if self.add_bookmark(bookmarkid, ["saved"]):
+            print(f"{pid}书签更新完成")
+            return None
         print(f"{pid}书签更新异常")
 
     def get_csrf(self):
