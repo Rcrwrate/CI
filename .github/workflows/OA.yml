@@ -18,6 +18,7 @@ jobs:
         
     - name: OA
       run: |
+        pip install pycryptodome
         python C.py --public ${{ secrets.PUBLIC }} --private ${{ secrets.PRIVATE }} --mode jiemi
     
     - name: Upload
