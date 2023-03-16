@@ -4,7 +4,7 @@ import time
 # import os
 # os.chdir("/home/ubuntu/aria/Upload")
 
-au = "https://login.microsoftonline.com/common/oauth2/v2.0/authorize?response_type=code&client_id=9fcb8eaa-e317-4b7f-a2b9-3fd7f6fdf6ef&scope=Files.ReadWrite+offline_access"
+au = "https://login.microsoftonline.com/common/oauth2/v2.0/authorize?response_type=code&client_id=***&scope=Files.ReadWrite+offline_access"
 code = "0.***.*--***-***-**-**-*-*-*-*-*-*-*-*-*-*-*-*"
 
 with open("oa.json", "r") as f:
