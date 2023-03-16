@@ -1,10 +1,10 @@
-name: Aria2
+name: OA
 on:
   push:
     branches:
     - main
   schedule:
-    - cron: '0 21 * * *'
+    - cron: '0 22 * * *'
     
 jobs:
   main-to-gh-pages:
@@ -15,31 +15,26 @@ jobs:
       uses: actions/checkout@v2
       with:
         ref: main
-               
-    - name: Prepare
+        
+    - name: OA
       run: |
-        pip install pycryptodome
-        sudo apt update
-        sudo apt install -y -qq aria2
         python C.py --public ${{ secrets.PUBLIC }} --private ${{ secrets.PRIVATE }} --mode jiemi
-        
-    - name: Run
-      run: |
-        python aria.py -uid ${{ secrets.UID }} -c ${{ secrets.COOKIE }} --tag save
-        cd image
-        aria2c -c --input-file=urllist.txt
-        rm -rf urllist.txt
-        
     
     - name: Upload
       run: |
         cd Upload
-        python main.py
+        python oa.py
 
     - name: Clean
       run: |
-        rm -rf image
         python C.py --public ${{ secrets.PUBLIC }} --private ${{ secrets.PRIVATE }} --mode jiami
+    
+    - uses: shaowenchen/debugger-action@v2
+      name: debugger
+      timeout-minutes: 30
+      continue-on-error: true
+      with:
+        ngrok_token: ${{ secrets.NGROK_TOKEN }} 
                         
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@3.7.1
