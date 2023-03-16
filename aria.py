@@ -45,7 +45,7 @@ def main(args):
             for i in T["body"]:
                 save(i["urls"]["original"])
                 print(i["urls"]["original"].split("/")[-1])
-            # P.change_bookmark(id)
+            P.change_bookmark(id)
         except Exception as e:
             print(traceback.format_exc())
             time.sleep(5)
