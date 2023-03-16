@@ -18,13 +18,13 @@
 
 ## 使用说明
 
-1. 在仓库设置中新建COOKIE的secret，其值为你Pixiv的账号凭证，打开[https://wwww.pixiv.net](https://www.pixiv.net)，按下F12在应用程序>Cookie找到名为PHPSESSID的值，就是它
+1. 在仓库设置中新建COOKIE的secret，其值为你Pixiv的账号凭证，打开[https://www.pixiv.net](https://www.pixiv.net)，按下F12在应用程序>Cookie找到名为PHPSESSID的值，就是它
 
 2. 在仓库设置中新建UID的secret，其值为你Pixiv账号的UID
 
 接下来进行加密的配置
 
-3. 运行`python C_normal.py --mode create`，创建密钥对，(默认4096位)
+3. 运行`python C_normal.py --mode create`，创建密钥对，(默认4096位)，请妥善保管
 
 https://github.com/Rcrwrate/CI/blob/main/CRY/CRY_RSA.py#LL103C24-L103C24
 
@@ -32,6 +32,16 @@ https://github.com/Rcrwrate/CI/blob/main/CRY/CRY_RSA.py#LL103C24-L103C24
 
 4. 在仓库设置中新建PUBLIC和PRIVATE的secret，其值为public.pem和private.pem中的内容
 
-接下来进行上传器Onedrive的配置
+接下来进行上传器Onedrive的配置，不提供APP的申请教程
 
-5. 
+在Upload中，会对oa.json和setting.py进行加密和解密，我们将要配置的也是这两个文件
+
+5. oa.json，如下所示
+
+`{"client_id": "*-*-*-*-*", "client_secret": "*-*~*.*.*"}`
+
+6. setting.py可以使用`oa.py`中的`OA.default()`进行一键填写，注意修改L8的code
+
+7. 加密全部机密`python C_normal.py --mode jiami`
+
+温习提示`python C_normal.py --mode jiemi`解密全部机密
