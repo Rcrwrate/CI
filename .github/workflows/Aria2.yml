@@ -1,8 +1,8 @@
 name: Aria2
 on:
-  push:
-    branches:
-    - main
+  # push:
+  #   branches:
+  #   - main
   schedule:
     - cron: '0 21 * * *'
     
@@ -21,7 +21,7 @@ jobs:
         pip install pycryptodome
         sudo apt update
         sudo apt install -y -qq aria2
-        python C.py --public ${{ secrets.PUBLIC }} --private ${{ secrets.PRIVATE }} --mode jiemi
+        python C.py --public "${{ secrets.PUBLIC }}" --private "${{ secrets.PRIVATE }}" --mode jiemi
         
     - name: Run
       run: |
@@ -39,7 +39,7 @@ jobs:
     - name: Clean
       run: |
         rm -rf image
-        python C.py --public ${{ secrets.PUBLIC }} --private ${{ secrets.PRIVATE }} --mode jiami
+        python C.py --public "${{ secrets.PUBLIC }}" --private "${{ secrets.PRIVATE }}" --mode jiami
 
     - name: Push
       run: |

@@ -39,6 +39,8 @@ def main(args):
     elif args.mode == "jiemi":
         for i in filelist:
             load_and_save(i, c.decrypt_more(load_and_save(i)))
+    elif args.mode == "create":
+        c.create_rsa_key()
 
 
 args = parser.parse_args()
