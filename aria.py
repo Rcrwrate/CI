@@ -30,12 +30,14 @@ def main(args):
         return None
     n = Network({"www.pixiv.net": {"ip": "210.140.92.193"}})
     P = Pixiv(n, PHPSESSID=args.cookie)
+    F = open(os.path.join("image", "urllist.txt"), "w")
 
     def save(url):
-        # url = url.replace("i.pximg.net", P.Mirror)
+        url = url.replace("i.pximg.net", P.Mirror)
         # url = url.replace("i.pximg.net", "i.pixiv.re")
-        with open(os.path.join("image", url.split("/")[-1]), "wb") as f:
-            f.write(n.get(url, timeout=(10, 30)).content)
+        # with open(os.path.join("image", url.split("/")[-1]), "wb") as f:
+        #     f.write(n.get(url, timeout=(10, 30)).content)
+        F.write(url+"\n")
 
     def ID(id):
         try:
@@ -43,7 +45,7 @@ def main(args):
             for i in T["body"]:
                 save(i["urls"]["original"])
                 print(i["urls"]["original"].split("/")[-1])
-            P.change_bookmark(id)
+            # P.change_bookmark(id)
         except Exception as e:
             print(traceback.format_exc())
             time.sleep(5)
@@ -52,6 +54,8 @@ def main(args):
     L = P.get_bookmarks_all(args.uid, args.tag)
     for i in L:
         ID(i)
+    
+    F.close()
 
 
 main(args)
