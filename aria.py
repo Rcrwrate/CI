@@ -56,7 +56,12 @@ def main(args):
                 return None
             ID(id, tryid)
 
-    L = P.get_bookmarks_all(args.uid, args.tag)
+    if args.mode == "favorite":
+        L = P.get_bookmarks_all(args.uid, args.tag)
+
+    elif args.mode == "subscribe":
+        L = P.get_all_by_uid(args.uid)["body"]["illusts"]
+    
     for i in L:
         ID(i)
 

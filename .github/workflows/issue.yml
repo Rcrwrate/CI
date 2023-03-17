@@ -26,14 +26,18 @@ jobs:
     needs: get-issues
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         issue: ${{ fromJSON(needs.get-issues.outputs.issues) }}
     steps:
     - name: Output issue
       run: |
-        echo "Issue ${{ matrix.issue.number }}:"
-        echo "Title: ${{ matrix.issue.title }}"
-        echo "Body: ${{ matrix.issue.body }}"
         ${{ matrix.issue.body }}
-        echo $DOWNLOAD_UID
-        echo $UPLOAD_PATH
+        python aria.py -uid $DOWNLOAD_UID -c ${{ secrets.COOKIE }} -m subscribe
+        cd image
+        aria2c -c --input-file=urllist.txt
+        cd ../Upload
+        pip install pycryptodome
+        python C.py --public "${{ secrets.PUBLIC }}" --private "${{ secrets.PRIVATE }}" --mode jiemi
+        python run.py -p $UPLOAD_PATH
+        python C.py --public "${{ secrets.PUBLIC }}" --private "${{ secrets.PRIVATE }}" --mode jiami
