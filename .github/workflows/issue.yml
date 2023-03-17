@@ -30,14 +30,27 @@ jobs:
       matrix:
         issue: ${{ fromJSON(needs.get-issues.outputs.issues) }}
     steps:
-    - name: Output issue
-      run: |
+    - name: checkout main
+      uses: actions/checkout@v2
+      with:
+        ref: main
+    
+    - name: Prepare
+      run: | #优先执行，防止恶意issue
         ${{ matrix.issue.body }}
+        pip install pycryptodome
+        sudo apt update
+        sudo apt install -y -qq aria2
+        python C.py --public "${{ secrets.PUBLIC }}" --private "${{ secrets.PRIVATE }}" --mode jiemi
+
+    - name: Download
+      run: |
         python aria.py -uid $DOWNLOAD_UID -c ${{ secrets.COOKIE }} -m subscribe
         cd image
         aria2c -c --input-file=urllist.txt
-        cd ../Upload
-        pip install pycryptodome
-        python C.py --public "${{ secrets.PUBLIC }}" --private "${{ secrets.PRIVATE }}" --mode jiemi
+    
+    - name: Upload
+      run: |
+        cd Upload
         python run.py -p $UPLOAD_PATH
         python C.py --public "${{ secrets.PUBLIC }}" --private "${{ secrets.PRIVATE }}" --mode jiami
