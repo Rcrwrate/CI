@@ -7,6 +7,11 @@ on:
         required: true
         type: string
         default: 未分類
+      Upload:
+        description: '上传路径'
+        required: true
+        type: string
+        default: Upload/Pixiv/image
     
 jobs:
   main-to-gh-pages:
@@ -36,7 +41,7 @@ jobs:
     - name: Upload
       run: |
         cd Upload
-        python main.py
+        python run.py -p ${{ inputs.Upload }}
 
     - name: Clean
       run: |
