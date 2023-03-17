@@ -3,7 +3,7 @@ name: Issue Auto
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 4 * * *'
+    - cron: '0 4 */6 * *'
   issues:
     types:
       - labeled
@@ -59,4 +59,5 @@ jobs:
       run: |
         cd Upload
         python run.py -p ${{ steps.setting.outputs.UPLOAD_PATH }}
+        cd ../
         python C.py --public "${{ secrets.PUBLIC }}" --private "${{ secrets.PRIVATE }}" --mode jiami
