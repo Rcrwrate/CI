@@ -8,7 +8,7 @@ on:
       - labeled
   
 jobs:
-  run:
+  main-to-gh-pages:
     # if: github.event.label.name == 'Action'
     runs-on: ubuntu-latest
     permissions:
@@ -17,24 +17,26 @@ jobs:
       matrix:
         issue: ${{ fromJSON(steps.get-issues.outputs.issues) }}
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    steps:                          
+    - name: checkout main
+      uses: actions/checkout@v2
+      with:
+        ref: main
 
-      - name: Get issues
-      - env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          issues=$(gh api "/repos/Rcrwrate/CI/issues?filter=all&state=open")
-        id: get-issues
+    - name: Get issues
+    - env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        issues=$(gh api "/repos/Rcrwrate/CI/issues?filter=all&state=open")
+      id: get-issues
 
-      - name: Output issues
-        run: |
-          echo "Issue ${{ matrix.issue.number }}:"
-          echo "Title: ${{ matrix.issue.title }}"
-          echo "Body: ${{ matrix.issue.body }}"
-          ${{ matrix.issue.body }}
-          echo $DOWNLOAD_UID
-          echo $UPLOAD_PATH
-        env:
-          issue: ${{ matrix.issue }}
+    - name: Output issues
+      run: |
+        echo "Issue ${{ matrix.issue.number }}:"
+        echo "Title: ${{ matrix.issue.title }}"
+        echo "Body: ${{ matrix.issue.body }}"
+        ${{ matrix.issue.body }}
+        echo $DOWNLOAD_UID
+        echo $UPLOAD_PATH
+      env:
+        issue: ${{ matrix.issue }}
