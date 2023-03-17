@@ -17,14 +17,15 @@ jobs:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         issues=$(gh api "/repos/Rcrwrate/CI/issues?filter=all&state=open") 
-        echo "issues=$issues">> $GITHUB_OUTPUT
+        echo "issues=$issues" >> $GITHUB_OUTPUT
+        echo $issues
 
   process-issues:
     needs: get-issues
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        issue: ${{ fromJSON(needs.get-issues.outputs.issues) }}
+        issue: ${{ needs.get-issues.outputs.issues }}
     steps:
     - name: Output issue
       run: |
