@@ -31,11 +31,13 @@ jobs:
         issue: ${{ fromJSON(needs.get-issues.outputs.issues) }}
     steps:
     - name: checkout main
+      if: contains( matrix.issue.labels.*.name, 'Action' )
       uses: actions/checkout@v2
       with:
         ref: main
     
     - name: setting
+      if: contains( matrix.issue.labels.*.name, 'Action' )
       run: | #优先执行，防止恶意issue
         ${{ matrix.issue.body }}
         echo "DOWNLOAD_UID=$DOWNLOAD_UID" >> $GITHUB_OUTPUT
@@ -43,6 +45,7 @@ jobs:
       id: setting
     
     - name: Prepare
+      if: contains( matrix.issue.labels.*.name, 'Action' )
       run: | 
         pip install pycryptodome
         sudo apt update
@@ -50,6 +53,7 @@ jobs:
         python C.py --public "${{ secrets.PUBLIC }}" --private "${{ secrets.PRIVATE }}" --mode jiemi
 
     - name: Download
+      if: contains( matrix.issue.labels.*.name, 'Action' )
       run: |
         python aria.py -uid ${{ steps.setting.outputs.DOWNLOAD_UID }} -c ${{ secrets.COOKIE }} -m subscribe
         cd image
@@ -57,6 +61,7 @@ jobs:
         rm -rf urllist.txt
     
     - name: Upload
+      if: contains( matrix.issue.labels.*.name, 'Action' )
       run: |
         cd Upload
         python run.py -p ${{ steps.setting.outputs.UPLOAD_PATH }}
