@@ -32,9 +32,9 @@ def get_list_new(path: str, li: list):
 
 
 def get_list(path: str, li: list):
-    # os.chdir(path)
-    # get_list_new("./", li)
-    get_list_new(path, li)
+    os.chdir(path)
+    get_list_new("./", li)
+    # get_list_new(path, li)
 
 
 def main(local_path, remote_path):
@@ -58,13 +58,13 @@ def main(local_path, remote_path):
         print(traceback.format_exc())
     except KeyboardInterrupt:
         pass
-    with open("wait.log", "w") as f:
+    with open("../wait.log", "w") as f:
         json.dump(wait, f)
 
 
 def continue_up(local_path, remote_path):
     os.chdir(local_path)
-    with open("wait.log", "r") as f:
+    with open("../wait.log", "r") as f:
         wait = json.load(f)
     err = 0
     try:
@@ -83,9 +83,9 @@ def continue_up(local_path, remote_path):
         LOG.error("[COMMerr]:\t{}".format(err.args))
     except KeyboardInterrupt:
         pass
-    with open("wait.log", "w") as f:
+    with open("../wait.log", "w") as f:
         json.dump(wait, f)
 
 
 if __name__ == "__main__":
-    main("../image", "Upload/Pixiv/PixivTest")
+    main("../image", "Upload/Pixiv/image")

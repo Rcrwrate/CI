@@ -33,7 +33,7 @@ class SESSION():
         }
 
     def get_AU_locol(self):
-        with open("setting.py", "r") as fn:
+        with open("../Upload/setting.py", "r") as fn:
             # r = fn.readline()
             AU = json.load(fn)["access_token"]
         return AU

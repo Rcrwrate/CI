@@ -45,3 +45,9 @@ https://github.com/Rcrwrate/CI/blob/main/CRY/CRY_RSA.py#LL103C24-L103C24
 7. 加密全部机密`python C_normal.py --mode jiami`
 
 温习提示`python C_normal.py --mode jiemi`解密全部机密
+
+## 作为CLI使用
+
+`python run.py -h`获取并下载(单线程)
+
+`python aria.py -h`获取并生成urllist.txt文件
