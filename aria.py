@@ -14,6 +14,7 @@ parser.add_argument('-c', '--cookies', type=str,
                     dest="cookie", help='设置cookie', default=False)
 parser.add_argument("-t", "--tag",  type=str, help='收藏栏', default="")
 parser.add_argument("-uid", "--uid", type=str, help='用户UID', default=False)
+parser.add_argument("-m","--mode",type=str,help="模式",default="favorite")
 
 args = parser.parse_args()
 
