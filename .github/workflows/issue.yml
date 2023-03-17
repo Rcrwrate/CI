@@ -16,8 +16,8 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        issues=$(gh api "/repos/Rcrwrate/CI/issues?filter=all&state=open")
-        echo "::set-output name=issues::$issues"
+        issues=$(gh api "/repos/Rcrwrate/CI/issues?filter=all&state=open") 
+        echo "issues=$issues">> $GITHUB_OUTPUT
 
   process-issues:
     needs: get-issues
