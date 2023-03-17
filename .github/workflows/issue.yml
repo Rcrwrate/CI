@@ -1,0 +1,40 @@
+name: Issue Auto
+on:
+  workflow_dispatch
+  schedule:
+    - cron: '0 4 * * *'
+  issues:
+    types:
+      - labeled
+  
+  jobs:
+    run:
+    # if: github.event.label.name == 'Action'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    strategy:
+      matrix:
+        issue: ${{ fromJSON(steps.get-issues.outputs.issues) }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Get issues
+      - env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          issues=$(gh api "/repos/Rcrwrate/CI/issues?filter=all&state=open")
+        id: get-issues
+
+      - name: Output issues
+        run: |
+          echo "Issue ${{ matrix.issue.number }}:"
+          echo "Title: ${{ matrix.issue.title }}"
+          echo "Body: ${{ matrix.issue.body }}"
+          ${{ matrix.issue.body }}
+          echo $DOWNLOAD_UID
+          echo $UPLOAD_PATH
+        env:
+          issue: ${{ matrix.issue }}
