@@ -35,9 +35,15 @@ jobs:
       with:
         ref: main
     
-    - name: Prepare
+    - name: setting
       run: | #优先执行，防止恶意issue
         ${{ matrix.issue.body }}
+        echo "DOWNLOAD_UID=$DOWNLOAD_UID" >> $GITHUB_OUTPUT
+        echo "UPLOAD_PATH=$UPLOAD_PATH" >> $GITHUB_OUTPUT
+      id: setting
+    
+    - name: Prepare
+      run: | 
         pip install pycryptodome
         sudo apt update
         sudo apt install -y -qq aria2
@@ -45,12 +51,12 @@ jobs:
 
     - name: Download
       run: |
-        python aria.py -uid $DOWNLOAD_UID -c ${{ secrets.COOKIE }} -m subscribe
+        python aria.py -uid ${{ steps.setting.outputs.DOWNLOAD_UID }} -c ${{ secrets.COOKIE }} -m subscribe
         cd image
         aria2c -c --input-file=urllist.txt
     
     - name: Upload
       run: |
         cd Upload
-        python run.py -p $UPLOAD_PATH
+        python run.py -p ${{ steps.setting.outputs.UPLOAD_PATH }}
         python C.py --public "${{ secrets.PUBLIC }}" --private "${{ secrets.PRIVATE }}" --mode jiami
