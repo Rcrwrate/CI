@@ -1,14 +1,14 @@
 name: Issue Auto
 on:
-  workflow_dispatch
+  workflow_dispatch:
   schedule:
     - cron: '0 4 * * *'
   issues:
     types:
       - labeled
   
-  jobs:
-    run:
+jobs:
+  run:
     # if: github.event.label.name == 'Action'
     runs-on: ubuntu-latest
     permissions:
