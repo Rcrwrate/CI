@@ -1,8 +1,14 @@
 # Pixiv CI库
 
-个人使用，说明书非常简略，有问题可以开issue问
+个人使用，说明书非常简略，有问题可以开issue问，**请勿选择Action标签**
 
 ## 功能说明
+
+目前已有功能如下：
+
+- [CI定时拉取个人收藏，上传](https://github.com/Rcrwrate/CI/blob/main/.github/workflows/Aria2.yml)
+- [CI根据带有Action label的issue中的数据定时拉取对应用户作品](https://github.com/Rcrwrate/CI/blob/main/.github/workflows/issue.yml)
+- [手动下载某收藏夹tag内容](https://github.com/Rcrwrate/CI/blob/main/.github/workflows/input.yml)
 
 #### 模块设计说明：
 
