@@ -54,6 +54,7 @@ jobs:
         python aria.py -uid ${{ steps.setting.outputs.DOWNLOAD_UID }} -c ${{ secrets.COOKIE }} -m subscribe
         cd image
         aria2c -c --input-file=urllist.txt
+        rm -rf urllist.txt
     
     - name: Upload
       run: |
