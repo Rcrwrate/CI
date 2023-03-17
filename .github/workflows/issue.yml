@@ -9,34 +9,30 @@ on:
       - labeled
 
 jobs:
-  main-to-gh-pages:
+  get-issues:
     runs-on: ubuntu-latest
-    permissions:
-      issues: write
+    steps:
+    - name: Get issues
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        issues=$(gh api "/repos/Rcrwrate/CI/issues?filter=all&state=open")
+        echo "::set-output name=issues::$issues"
+
+  process-issues:
+    needs: get-issues
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        issue: ${{ fromJSON(steps.get-issues.outputs.issues) }}
-
-    steps:                          
-      - name: checkout main
-        uses: actions/checkout@v2
-        with:
-          ref: main
-
-      - name: Get issues
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          issues=$(gh api "/repos/Rcrwrate/CI/issues?filter=all&state=open")
-          echo "::set-output name=issues::$issues"
-        id: get-issues
-
-      - name: Output issues
-        run: |
-          echo "Issue ${{ matrix.issue.number }}:"
-          echo "Title: ${{ matrix.issue.title }}"
-          echo "Body: ${{ matrix.issue.body }}"
-          echo $DOWNLOAD_UID
-          echo $UPLOAD_PATH
-        env:
-          issue: ${{ matrix.issue }}
+        issue: ${{ fromJSON(needs.get-issues.outputs.issues) }}
+    steps:
+    - name: Output issue
+      run: |
+        echo "Issue ${{ matrix.issue.number }}:"
+        echo "Title: ${{ matrix.issue.title }}"
+        echo "Body: ${{ matrix.issue.body }}"
+        ${{ matrix.issue.body }}
+        echo $DOWNLOAD_UID
+        echo $UPLOAD_PATH
+      env:
+        issue: ${{ matrix.issue }}
