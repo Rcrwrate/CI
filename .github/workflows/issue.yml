@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        issue: ${{ needs.get-issues.outputs.issues }}
+        issue: ${{ fromJSON(needs.get-issues.outputs.issues) }}
     steps:
     - name: Output issue
       run: |
