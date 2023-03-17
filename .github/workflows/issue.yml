@@ -37,5 +37,3 @@ jobs:
         ${{ matrix.issue.body }}
         echo $DOWNLOAD_UID
         echo $UPLOAD_PATH
-      env:
-        issue: ${{ matrix.issue }}
