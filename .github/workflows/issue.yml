@@ -11,6 +11,8 @@ on:
 jobs:
   get-issues:
     runs-on: ubuntu-latest
+    outputs:
+      issues: ${{ steps.get-issues.outputs.issues }}
     steps:
     - name: Get issues
       env:
