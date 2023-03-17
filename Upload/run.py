@@ -12,4 +12,4 @@ parser.add_argument('-p', '--path', type=str,
 
 args = parser.parse_args()
 
-main("../image", args.path)
+main("../image", args.path.replace("\r",""))

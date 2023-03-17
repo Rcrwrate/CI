@@ -14,7 +14,7 @@ parser.add_argument('-c', '--cookies', type=str,
                     dest="cookie", help='设置cookie', default=False)
 parser.add_argument("-t", "--tag",  type=str, help='收藏栏', default="")
 parser.add_argument("-uid", "--uid", type=str, help='用户UID', default=False)
-parser.add_argument("-m","--mode",type=str,help="模式",default="favorite")
+parser.add_argument("-m", "--mode", type=str, help="模式", default="favorite")
 
 args = parser.parse_args()
 
@@ -46,7 +46,9 @@ def main(args):
             for i in T["body"]:
                 save(i["urls"]["original"])
                 print(i["urls"]["original"].split("/")[-1])
-            P.change_bookmark(id)
+
+            if args.mode == "favorite":
+                P.change_bookmark(id)
         except Exception:
             print(traceback.format_exc())
             time.sleep(5)
@@ -60,8 +62,8 @@ def main(args):
         L = P.get_bookmarks_all(args.uid, args.tag)
 
     elif args.mode == "subscribe":
-        L = P.get_all_by_uid(args.uid)["body"]["illusts"]
-    
+        L = P.get_all_by_uid(int(args.uid))["body"]["illusts"]
+
     for i in L:
         ID(i)
 
