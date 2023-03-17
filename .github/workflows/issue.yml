@@ -25,18 +25,17 @@ jobs:
   process-issues:
     needs: get-issues
     runs-on: ubuntu-latest
-    # strategy:
-    #   matrix:
-    #     issue: ${{ needs.get-issues.outputs.issues }}
+    strategy:
+      matrix:
+        issue: ${{ needs.get-issues.outputs.issues }}
     steps:
     - name: Output issue
       run: |
-        echo "${{ needs.get-issues.outputs.issues }}"
-      #   echo "Issue ${{ matrix.issue.number }}:"
-      #   echo "Title: ${{ matrix.issue.title }}"
-      #   echo "Body: ${{ matrix.issue.body }}"
-      #   ${{ matrix.issue.body }}
-      #   echo $DOWNLOAD_UID
-      #   echo $UPLOAD_PATH
-      # env:
-      #   issue: ${{ matrix.issue }}
+        echo "Issue ${{ matrix.issue.number }}:"
+        echo "Title: ${{ matrix.issue.title }}"
+        echo "Body: ${{ matrix.issue.body }}"
+        ${{ matrix.issue.body }}
+        echo $DOWNLOAD_UID
+        echo $UPLOAD_PATH
+      env:
+        issue: ${{ matrix.issue }}
