@@ -34,6 +34,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         ref: main
+        fetch-depth: full
                
     - name: Prepare
       run: |
@@ -74,8 +75,10 @@ jobs:
         git init
         git config user.name Rcrwrate
         git config user.email 46920034+Rcrwrate@users.noreply.github.com
+        git pull
         git add Upload/setting.py
         git commit -m "Input update ${{ github.run_id }}"
+        git checkout -- Upload/oa.json
         git filter-branch --force --index-filter 'if [ "$GIT_COMMIT" != "$(git rev-parse HEAD)" ]; then git rm --cached --ignore-unmatch Upload/setting.py; fi' --prune-empty --tag-name-filter cat -- --all
         git push origin --force --all
 
