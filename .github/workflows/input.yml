@@ -75,7 +75,6 @@ jobs:
         git init
         git config user.name Rcrwrate
         git config user.email 46920034+Rcrwrate@users.noreply.github.com
-        git pull
         git add Upload/setting.py
         git commit -m "Input update ${{ github.run_id }}"
         git checkout -- Upload/oa.json
