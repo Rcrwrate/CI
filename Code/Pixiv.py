@@ -125,3 +125,7 @@ class Pixiv():
         r = self.s.get("https://www.pixiv.net/").text
         self.csrf = re.findall(r'{\"token\":\"([\s\S]+?)\"', r)[0]
         return self.csrf
+
+    def get_gif_by_PID(self, PID):
+        url = f"https://www.pixiv.net/ajax/illust/{PID}/ugoira_meta?lang=zh"
+        return self.get(url)
