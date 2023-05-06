@@ -133,3 +133,6 @@ dmypy.json
 public.pem
 test*
 image
+
+*.torrent
+aria2.session
