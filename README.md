@@ -1,8 +1,18 @@
-# Pixiv CI库
+# Personal CI库
 
 个人使用，说明书非常简略，有问题可以开issue问，**请勿选择Action标签**
 
-## 功能说明
+目前已有2模块：BT下载、Pixiv
+
+## BT下载功能说明
+
+目前已有功能如下：
+
+- [BT输入式下载](https://github.com/Rcrwrate/CI/blob/main/.github/workflows/BT.yml)
+- [BT RSS订阅下载，常规用于下载新番](https://github.com/Rcrwrate/CI/blob/main/.github/workflows/BtRSS.yml)
+
+
+## PIXIV相关功能说明
 
 目前已有功能如下：
 

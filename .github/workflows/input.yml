@@ -1,4 +1,4 @@
-name: Input
+name: Pixiv Input
 on:
   workflow_dispatch:
     inputs:

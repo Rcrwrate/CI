@@ -1,4 +1,4 @@
-name: Issue Auto
+name: Pixiv Issue Auto
 
 on:
   workflow_dispatch:
