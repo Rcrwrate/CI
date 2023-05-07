@@ -10,8 +10,8 @@ do
   subdir=$(basename "$subdir")
 
   # 指定输出文件名
-  gif_output="$dir/$subdir.gif"
-  apng_output="$dir/$subdir.png"
+  gif_output="$dir/$subdir/$subdir.gif"
+  apng_output="$dir/$subdir/$subdir.png"
   for file in "$dir/$subdir"/*
   do
     # 提取文件名和后缀名
