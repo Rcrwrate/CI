@@ -30,9 +30,9 @@
 
 #### 上传服务
 
-位于`Upload`中，目前仅提供上传Onedrive的途径(通过Graph API)
+位于`Upload`中，目前仅提供上传Onedrive的途径(通过Graph API),可以通过rclone，需要自行上传rclone.conf和修改yml
 
-## 使用说明
+### 使用说明
 
 1. 在仓库设置中新建COOKIE的secret，其值为你Pixiv的账号凭证，打开[https://www.pixiv.net](https://www.pixiv.net)，按下F12在应用程序>Cookie找到名为PHPSESSID的值，就是它
 
@@ -62,7 +62,7 @@ https://github.com/Rcrwrate/CI/blob/main/CRY/CRY_RSA.py#LL103C24-L103C24
 
 温习提示`python C_normal.py --mode jiemi`解密全部机密
 
-## 作为CLI使用
+### 作为CLI使用
 
 `python run.py -h`获取并下载(单线程)
 

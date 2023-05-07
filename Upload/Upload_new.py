@@ -6,7 +6,7 @@ import logging
 
 LOG = logging.getLogger("UPLOAD")
 LOG.setLevel(logging.INFO)
-F = logging.FileHandler("upload.log", "a")
+F = logging.FileHandler("upload.log", "a", encoding="utf-8")
 F.setFormatter(logging.Formatter('%(asctime)s:%(message)s'))
 LOG.addHandler(F)
 T = logging.StreamHandler()
@@ -23,7 +23,7 @@ class Upload():
         self.err = 0
 
     @staticmethod
-    def change_name(filename): # https://github.com/phantom-sea-limited/Crawler/blob/main/FIX.md#1-%E6%96%87%E4%BB%B6%E5%90%8D%E5%AF%BC%E8%87%B4%E7%9A%84url%E6%88%AA%E6%96%AD
+    def change_name(filename):  # https://github.com/phantom-sea-limited/Crawler/blob/main/FIX.md#1-%E6%96%87%E4%BB%B6%E5%90%8D%E5%AF%BC%E8%87%B4%E7%9A%84url%E6%88%AA%E6%96%AD
         for i in [":", "\"", "*", ":", "<", ">", "?", "/", "\\", "|", "。", "#"]:
             filename = filename.replace(i, "")
         return filename

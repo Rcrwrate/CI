@@ -9,7 +9,7 @@ import traceback
 
 LOG = logging.getLogger("COMMAND")
 LOG.setLevel(logging.INFO)
-F = logging.FileHandler("command.log", "a")
+F = logging.FileHandler("command.log", "a", encoding="utf-8")
 F.setFormatter(logging.Formatter('%(asctime)s:%(message)s'))
 LOG.addHandler(F)
 

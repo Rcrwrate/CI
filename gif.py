@@ -50,9 +50,14 @@ def get_GIF_list():
 
 
 def GifLIst(P: Pixiv):
-    with open(os.path.join("image", "gifs.txt"), "w") as f:
-        for ID in get_GIF_list():
-            f.write(GifZipOriUrl(P, ID) + "\n")
+    l = get_GIF_list()
+    if l != []:
+        open("GIF_CONTROL", "w").write("GIF_CONTROL=true")
+        with open(os.path.join("image", "gifs.txt"), "w") as f:
+            for ID in l:
+                f.write(GifZipOriUrl(P, ID) + "\n")
+    else:
+        open("GIF_CONTROL", "w").write("GIF_CONTROL=false")
 
 
 def Run():
@@ -86,6 +91,4 @@ def main(args):
         Run()
 
 
-# main(args)
-
-Run()
+main(args)

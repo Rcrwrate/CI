@@ -1,15 +1,15 @@
 name: Pixiv
 on:
-  # push:
-  #   branches:
-  #   - main
+  workflow_dispatch:
   schedule:
     - cron: '0 21 * * *'
     
 jobs:
-  main-to-gh-pages:
+  Pixiv-Main:
     runs-on: ubuntu-latest
-        
+    outputs:
+      gif-check: ${{ steps.gif-check.outputs.GIF_CONTROL }}
+
     steps:                          
     - name: checkout main
       uses: actions/checkout@v2
@@ -30,19 +30,44 @@ jobs:
         cd image
         aria2c -c --input-file=urllist.txt
         rm -rf urllist.txt
-        
+    
+    - name: Gif find
+      run: |
+        python gif.py -c ${{ secrets.COOKIE }}
+        eval $(cat GIF_CONTROL)
+        echo "GIF_CONTROL=$GIF_CONTROL" >> $GITHUB_OUTPUT
+      id: gif-check
+    
+    - name: GifZIP donwload
+      if:  ${{ steps.gif-check.outputs.GIF_CONTROL == 'true' }}
+      run: |
+        cd image
+        aria2c -c --input-file=gifs.txt
+        rm -rf gifs.txt
+      
+    
+    - name: Upload tmp Imgae
+      if:  ${{ steps.gif-check.outputs.GIF_CONTROL == 'true' }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: Ori
+        path: image
+        retention-days: 1
     
     - name: Upload
+      if:  ${{ steps.gif-check.outputs.GIF_CONTROL == 'false' }}
       run: |
         cd Upload
         python main.py
 
     - name: Clean
+      if:  ${{ steps.gif-check.outputs.GIF_CONTROL == 'false' }}
       run: |
         rm -rf image
         python C.py --public "${{ secrets.PUBLIC }}" --private "${{ secrets.PRIVATE }}" --mode jiami
 
     - name: Push
+      if:  ${{ steps.gif-check.outputs.GIF_CONTROL == 'false' }}
       run: |
         git init
         git config user.name Rcrwrate
@@ -52,13 +77,53 @@ jobs:
         git checkout -- Upload/oa.json
         git filter-branch --force --index-filter 'if [ "$GIT_COMMIT" != "$(git rev-parse HEAD)" ]; then git rm --cached --ignore-unmatch Upload/setting.py; fi' --prune-empty --tag-name-filter cat -- --all
         git push origin --force --all
+  
+  Pixiv-GIF:
+    runs-on: windows-latest
+    needs: Pixiv-Main
+    if:  ${{ needs.Pixiv-Main.outputs.gif-check == 'true' }}
+    steps:
+      - name: checkout main
+        uses: actions/checkout@v2
+        with:
+          ref: main
+          fetch-depth: full
 
-    # - name: Deploy
-    #   uses: JamesIves/github-pages-deploy-action@3.7.1
-    #   with:
-    #     BRANCH: main
-    #     FOLDER: .
-    #     BASE_BRANCH: main
-                
-                
-                
+      - name: Install
+        run: |
+          pip install requests
+          pip install pycryptodome
+          python C.py --public "${{ secrets.PUBLIC }}" --private "${{ secrets.PRIVATE }}" --mode jiemi
+          choco install ffmpeg -y
+          refreshenv
+      
+      - name: Download Artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: Ori
+          path: image
+
+      - name: Create Gif and Apng
+        run: |
+          python gif.py --mode run
+          bash gif.sh
+      
+      - name: Upload
+        run: |
+          cd Upload
+          python main.py
+  
+      - name: Clean
+        run: |
+          python C.py --public "${{ secrets.PUBLIC }}" --private "${{ secrets.PRIVATE }}" --mode jiami
+  
+      - name: Push
+        run: |
+          git init
+          git config user.name Rcrwrate
+          git config user.email 46920034+Rcrwrate@users.noreply.github.com
+          git add Upload/setting.py
+          git commit -m "Daily update ${{ github.run_id }}"
+          git checkout -- Upload/oa.json
+          git filter-branch --force --index-filter 'if [ $GIT_COMMIT != $(git rev-parse HEAD) ]; then git rm --cached --ignore-unmatch Upload/setting.py; fi' --prune-empty --tag-name-filter cat -- --all
+          git push origin --force --all
