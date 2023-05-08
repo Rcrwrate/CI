@@ -22,11 +22,16 @@ on:
       Upload_mode:
         description: '上传模式'
         required: true
-        default: 'python'
+        default: 'rclone'
         type: choice
         options:
         - rclone
         - python
+      ZIP:
+        description: '是否解压'
+        required: true
+        default: true
+        type: boolean
     
 jobs:
   main-to-gh-pages:
@@ -62,9 +67,9 @@ jobs:
         aria2c --conf-path=aria2.conf
     
     - name: unzip
+      if: inputs.ZIP == true
+      continue-on-error: true
       run: |
-        bash unzip.sh
-        bash unzip.sh
         bash unzip.sh
 
     - name: Upload by python

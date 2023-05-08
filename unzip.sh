@@ -15,7 +15,7 @@ function traverse_dir {
       mkdir -p "$dir/$filename"
       if [[ "$file" == *.zip ]]
       then
-        unzip -o "$file" -d "$dir/$filename"
+        unzip -o -qO UTF-8 "$file" -d "$dir/$filename"
         traverse_dir "$dir/$filename"
       else
         7z x "$file" -o"$dir/$filename" -y
