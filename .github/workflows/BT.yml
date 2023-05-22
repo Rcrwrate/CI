@@ -48,7 +48,7 @@ jobs:
       run: |
         sudo apt update
         sudo apt install -y -qq aria2
-        sudo apt install -y p7zip p7zip-full p7zip-rar
+        sudo apt install -y p7zip p7zip-full p7zip-rar unrar
         pip install pycryptodome
     
     - name: Download by magnet

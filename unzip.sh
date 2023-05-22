@@ -9,7 +9,7 @@ function traverse_dir {
     if [[ -d "$file" ]]
     then
       traverse_dir "$file"
-    elif [[ "$file" == *.zip || "$file" == *.7z ]]
+    elif [[ "$file" == *.zip || "$file" == *.7z || "$file" == *.rar || "$file" == *.zipx ]]
     then
       filename=$(basename "$file" | cut -f 1 -d '.')
       mkdir -p "$dir/$filename"
@@ -17,8 +17,17 @@ function traverse_dir {
       then
         unzip -o -qO UTF-8 "$file" -d "$dir/$filename"
         traverse_dir "$dir/$filename"
-      else
+      elif [[ "$file" == *.7z ]]
+      then
         7z x "$file" -o"$dir/$filename" -y
+        traverse_dir "$dir/$filename"
+      elif [[ "$file" == *.rar ]]
+      then
+        unrar x "$file" "$dir/$filename"
+        traverse_dir "$dir/$filename"
+      elif [[ "$file" == *.zipx ]]
+      then
+        unzip -o -qO UTF-8 "$file" -d "$dir/$filename"
         traverse_dir "$dir/$filename"
       fi
     fi
