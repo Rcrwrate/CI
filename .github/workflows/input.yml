@@ -49,6 +49,11 @@ on:
         required: true
         type: string
         default: Upload/Pixiv/image
+      push:
+        description: '是否更新凭证'
+        required: false
+        type: boolean
+        default: true
     
 jobs:
   Pixiv-Main:
@@ -104,7 +109,7 @@ jobs:
       if:  ${{ steps.gif-check.outputs.GIF_CONTROL == 'true' }}
       uses: actions/upload-artifact@v2
       with:
-        name: ${{ github.run_id }}
+        name: ${{ inputs.mode == '下载特定收藏tag' && inputs.tag || inputs.UID }}
         path: image
         retention-days: 1
 
@@ -120,7 +125,7 @@ jobs:
         python C.py --public "${{ secrets.PUBLIC }}" --private "${{ secrets.PRIVATE }}" --mode jiami
 
     - name: Push
-      if:  ${{ steps.gif-check.outputs.GIF_CONTROL == 'false' }}
+      if:  ${{ steps.gif-check.outputs.GIF_CONTROL == 'false' && inputs.push == true }}
       run: |
         git init
         git config user.name Rcrwrate
@@ -137,6 +142,6 @@ jobs:
     uses: ./.github/workflows/Gif.yml
     with:
       upload-path: ${{ inputs.Upload }}
-      artifact-path: ${{ github.run_id }}
+      artifact-path: ${{ inputs.mode == '下载特定收藏tag' && inputs.tag || inputs.UID }}
       push: ${{ inputs.push }}
     secrets: inherit
