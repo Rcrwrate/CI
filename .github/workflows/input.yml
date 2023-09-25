@@ -78,7 +78,7 @@ jobs:
     - name: Download favorite Tag
       if: inputs.mode == '下载特定收藏tag'
       run: |
-        python aria.py -uid ${{ secrets.UID }} -c ${{ secrets.COOKIE }} --tag ${{ inputs.tag }}
+        python aria.py -uid ${{ secrets.UID }} -c ${{ secrets.COOKIE }} --tag ${{ inputs.tag }} --type rclone
         cd image
         aria2c -c --input-file=urllist.txt
         rm -rf urllist.txt
@@ -116,13 +116,13 @@ jobs:
     - name: Upload
       if:  ${{ steps.gif-check.outputs.GIF_CONTROL == 'false' }}
       run: |
-        cd Upload
-        python run.py -p ${{ inputs.Upload }}
+        sudo -v ; curl https://rclone.org/install.sh | sudo bash
+        bash rclone.sh -p ${{ inputs.Upload }}
 
     - name: Clean
       run: |
         rm -rf image
-        python C.py --public "${{ secrets.PUBLIC }}" --private "${{ secrets.PRIVATE }}" --mode jiami
+        python C.py --public "${{ secrets.PUBLIC }}" --private "${{ secrets.PRIVATE }}" --mode jiami --type rclone
 
     - name: Push
       if:  ${{ steps.gif-check.outputs.GIF_CONTROL == 'false' && inputs.push == true }}
@@ -130,10 +130,10 @@ jobs:
         git init
         git config user.name github-actions[bot]
         git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-        git add Upload/setting.py
+        git add rclone.conf
         git commit -m "Input update ${{ github.run_id }}"
-        git checkout -- Upload/oa.json
-        git filter-branch --force --index-filter 'if [ "$GIT_COMMIT" != "$(git rev-parse HEAD)" ]; then git rm --cached --ignore-unmatch Upload/setting.py; fi' --prune-empty --tag-name-filter cat -- --all
+        # git checkout -- Upload/oa.json
+        git filter-branch --force --index-filter 'if [ "$GIT_COMMIT" != "$(git rev-parse HEAD)" ]; then git rm --cached --ignore-unmatch rclone.conf; fi' --prune-empty --tag-name-filter cat -- --all
         git push origin --force --all
   
   Pixiv-GIF:

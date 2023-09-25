@@ -28,8 +28,10 @@ jobs:
         run: |
           pip install requests
           pip install pycryptodome
-          python C.py --public "${{ secrets.PUBLIC }}" --private "${{ secrets.PRIVATE }}" --mode jiemi
+          python C.py --public "${{ secrets.PUBLIC }}" --private "${{ secrets.PRIVATE }}" --mode jiemi --type rclone
           choco install ffmpeg -y
+          choco install rclone -y 
+
 
       # - name: Refreshenv
       #   continue-on-error: true
@@ -53,13 +55,13 @@ jobs:
           bash gif.sh
       
       - name: Upload
+        if: startsWith( inputs.upload-path, 'Upload' )
         run: |
-          cd Upload
-          python run.py -p ${{ inputs.upload-path }}
+          rclone --config=rclone.conf copyto local:image "Save:${{ inputs.upload-path }}" --log-level INFO
   
       - name: Clean
         run: |
-          python C.py --public "${{ secrets.PUBLIC }}" --private "${{ secrets.PRIVATE }}" --mode jiami
+          python C.py --public "${{ secrets.PUBLIC }}" --private "${{ secrets.PRIVATE }}" --mode jiami --type rclone
   
       - name: Push
         if: inputs.push == true
@@ -67,8 +69,8 @@ jobs:
           git init
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add Upload/setting.py
+          git add rclone.conf
           git commit -m "Daily update ${{ github.run_id }}"
-          git checkout -- Upload/oa.json
-          git filter-branch --force --index-filter 'if [ $GIT_COMMIT != $(git rev-parse HEAD) ]; then git rm --cached --ignore-unmatch Upload/setting.py; fi' --prune-empty --tag-name-filter cat -- --all
+          # git checkout -- Upload/oa.json
+          git filter-branch --force --index-filter 'if [ $GIT_COMMIT != $(git rev-parse HEAD) ]; then git rm --cached --ignore-unmatch rclone.conf; fi' --prune-empty --tag-name-filter cat -- --all
           git push origin --force --all
