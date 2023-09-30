@@ -22,7 +22,7 @@ jobs:
         pip install pycryptodome
         sudo apt update
         sudo apt install -y -qq aria2
-        python C.py --public "${{ secrets.PUBLIC }}" --private "${{ secrets.PRIVATE }}" --mode jiemi
+        python C.py --public "${{ secrets.PUBLIC }}" --private "${{ secrets.PRIVATE }}" --mode jiemi --type rclone
         
     - name: Run
       run: |
@@ -56,14 +56,14 @@ jobs:
     - name: Upload
       if:  ${{ steps.gif-check.outputs.GIF_CONTROL == 'false' }}
       run: |
-        cd Upload
-        python main.py
+        sudo -v ; curl https://rclone.org/install.sh | sudo bash
+        bash rclone.sh -p "Upload/Pixiv/image"
 
     - name: Clean
       if:  ${{ steps.gif-check.outputs.GIF_CONTROL == 'false' }}
       run: |
         rm -rf image
-        python C.py --public "${{ secrets.PUBLIC }}" --private "${{ secrets.PRIVATE }}" --mode jiami
+        python C.py --public "${{ secrets.PUBLIC }}" --private "${{ secrets.PRIVATE }}" --mode jiami --type rclone
 
     - name: Push
       if:  ${{ steps.gif-check.outputs.GIF_CONTROL == 'false' }}
@@ -71,10 +71,10 @@ jobs:
         git init
         git config user.name github-actions[bot]
         git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-        git add Upload/setting.py
+        git add rclone.conf
         git commit -m "Daily update ${{ github.run_id }}"
-        git checkout -- Upload/oa.json
-        git filter-branch --force --index-filter 'if [ "$GIT_COMMIT" != "$(git rev-parse HEAD)" ]; then git rm --cached --ignore-unmatch Upload/setting.py; fi' --prune-empty --tag-name-filter cat -- --all
+        #git checkout -- Upload/oa.json
+        git filter-branch --force --index-filter 'if [ "$GIT_COMMIT" != "$(git rev-parse HEAD)" ]; then git rm --cached --ignore-unmatch rclone.conf; fi' --prune-empty --tag-name-filter cat -- --all
         git push origin --force --all
   
   Pixiv-GIF:

@@ -18,7 +18,7 @@ while getopts "p:" opt; do
 done
 
 if [[ $path == "Upload"* ]]; then
-  rclone --config=rclone.conf copyto local:image "Save:$path" --log-level INFO
+  rclone --checksum --config=rclone.conf copyto local:image "Save:$path" --log-level INFO
 else
   echo "The Remote does not start with 'Upload'"
 fi
