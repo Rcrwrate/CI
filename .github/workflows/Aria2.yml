@@ -22,7 +22,7 @@ jobs:
         pip install pycryptodome
         sudo apt update
         sudo apt install -y -qq aria2
-        python C.py --public "${{ secrets.PUBLIC }}" --private "${{ secrets.PRIVATE }}" --mode jiemi
+        python C.py --public "${{ secrets.PUBLIC }}" --private "${{ secrets.PRIVATE }}" --mode jiemi --type rclone
         
     - name: Run
       run: |
@@ -56,8 +56,8 @@ jobs:
     - name: Upload
       if:  ${{ steps.gif-check.outputs.GIF_CONTROL == 'false' }}
       run: |
-        cd Upload
-        python main.py
+        sudo -v ; curl https://rclone.org/install.sh | sudo bash
+        bash rclone.sh -p "Upload/Pixiv/image"
 
     - name: Clean
       if:  ${{ steps.gif-check.outputs.GIF_CONTROL == 'false' }}

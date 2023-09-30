@@ -73,7 +73,7 @@ jobs:
         pip install pycryptodome
         sudo apt update
         sudo apt install -y -qq aria2
-        python C.py --public "${{ secrets.PUBLIC }}" --private "${{ secrets.PRIVATE }}" --mode jiemi
+        python C.py --public "${{ secrets.PUBLIC }}" --private "${{ secrets.PRIVATE }}" --mode jiemi --type rclone
         
     - name: Download favorite Tag
       if: inputs.mode == '下载特定收藏tag'

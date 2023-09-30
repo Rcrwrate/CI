@@ -57,7 +57,7 @@ jobs:
       - name: Upload
         if: startsWith( inputs.upload-path, 'Upload' )
         run: |
-          rclone --config=rclone.conf copyto local:image "Save:${{ inputs.upload-path }}" --log-level INFO
+          rclone --checksum --config=rclone.conf copyto local:image "Save:${{ inputs.upload-path }}" --log-level INFO
   
       - name: Clean
         run: |
