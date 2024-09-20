@@ -107,7 +107,7 @@ jobs:
         
     - name: Upload tmp Imgae
       if:  ${{ steps.gif-check.outputs.GIF_CONTROL == 'true' }}
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ inputs.mode == '下载特定收藏tag' && inputs.tag || inputs.UID }}
         path: image
