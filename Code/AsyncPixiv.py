@@ -13,7 +13,7 @@ class Pixiv():
     Logined = False
     "登录设置"
 
-    def __init__(self, s=Network({"www.pixiv.net": {"ip": "210.140.92.193"}}), PHPSESSID="") -> None:
+    def __init__(self, s=Network({}), PHPSESSID="") -> None:
         '''
         PHPSESSID为登录后Cookie中名为PHPSESSID的对应值\t请登录后按F12打开开发者工具寻找\n
         可以选择不登录,即保持为空,但是获取到的数据会有一定时间的延后(Pixiv官方的锅)\n

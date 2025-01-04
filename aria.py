@@ -29,7 +29,7 @@ def main(args):
     if args.cookie is False:
         print("cookie未配置!")
         return None
-    n = Network({"www.pixiv.net": {"ip": "210.140.92.193"}})
+    n = Network({})
     P = Pixiv(n, PHPSESSID=args.cookie)
     F = open(os.path.join("image", "urllist.txt"), "w")
 
