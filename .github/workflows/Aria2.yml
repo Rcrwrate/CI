@@ -25,6 +25,7 @@ jobs:
         python C.py --public "${{ secrets.PUBLIC }}" --private "${{ secrets.PRIVATE }}" --mode jiemi --type rclone
         
     - name: Run
+      continue-on-error: true
       run: |
         python aria.py -uid ${{ secrets.UID }} -c ${{ secrets.COOKIE }} --tag 未分類
         cd image
@@ -32,6 +33,7 @@ jobs:
         rm -rf urllist.txt
     
     - name: Gif find
+      continue-on-error: true
       run: |
         python gif.py -c ${{ secrets.COOKIE }}
         eval $(cat GIF_CONTROL)
