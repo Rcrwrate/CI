@@ -122,8 +122,10 @@ class Pixiv():
         print(f"{pid}书签更新异常")
 
     def get_csrf(self):
+        if self.csrf != None:
+            return self.csrf
         r = self.s.get("https://www.pixiv.net/").text
-        self.csrf = re.findall(r'{\"token\":\"([\s\S]+?)\"', r)[0]
+        self.csrf = re.findall(r'{\\"token\\":\\"([\s\S]+?)\\"', r)[0]
         return self.csrf
 
     def get_gif_by_PID(self, PID):
