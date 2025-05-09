@@ -50,6 +50,7 @@ jobs:
           path: image
 
       - name: Create Gif and Apng
+        continue-on-error: true
         run: |
           python gif.py --mode run
           bash gif.sh
