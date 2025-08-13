@@ -29,7 +29,7 @@ jobs:
       run: |
         python aria.py -uid ${{ secrets.UID }} -c ${{ secrets.COOKIE }} --tag 未分類
         cd image
-        aria2c -c --input-file=urllist.txt
+        bash ../retry.sh aria2c -c --input-file=urllist.txt --conditional-get=true --allow-overwrite=true --auto-file-renaming=false
         rm -rf urllist.txt
     
     - name: Gif find
@@ -44,7 +44,7 @@ jobs:
       if:  ${{ steps.gif-check.outputs.GIF_CONTROL == 'true' }}
       run: |
         cd image
-        aria2c -c --input-file=gifs.txt
+        bash ../retry.sh aria2c -c --input-file=gifs.txt --conditional-get=true --allow-overwrite=true --auto-file-renaming=false
         rm -rf gifs.txt
       
     - name: Upload tmp Imgae
