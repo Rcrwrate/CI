@@ -80,7 +80,7 @@ jobs:
       run: |
         python aria.py -uid ${{ secrets.UID }} -c ${{ secrets.COOKIE }} --tag ${{ inputs.tag }} --type rclone
         cd image
-        bash ../retry.sh aria2c -c --input-file=urllist.txt --continue=true --conditional-get=true --allow-overwrite=false --auto-file-renaming=false
+        bash ../retry.sh aria2c -c --input-file=urllist.txt --continue=true --conditional-get=true --allow-overwrite=false --auto-file-renaming=false -s=1
         rm -rf urllist.txt
     
     - name: Download UID Artworks
@@ -88,7 +88,7 @@ jobs:
       run: |
         python aria.py -uid ${{ inputs.UID }} -c ${{ secrets.COOKIE }} -m subscribe
         cd image
-        bash ../retry.sh aria2c -c --input-file=urllist.txt --continue=true --conditional-get=true --allow-overwrite=false --auto-file-renaming=false
+        bash ../retry.sh aria2c -c --input-file=urllist.txt --continue=true --conditional-get=true --allow-overwrite=false --auto-file-renaming=false -s=1
         rm -rf urllist.txt
 
     - name: Gif find
