@@ -80,7 +80,7 @@ jobs:
       run: |
         python aria.py -uid ${{ secrets.UID }} -c ${{ secrets.COOKIE }} --tag ${{ inputs.tag }} --type rclone
         cd image
-        bash ../retry.sh aria2c -c --input-file=urllist.txt --continue=true --conditional-get=true --allow-overwrite=false --auto-file-renaming=false -s=1  \
+        bash ../retry.sh aria2c -c --input-file=urllist.txt --continue=true --conditional-get=true --allow-overwrite=false --auto-file-renaming=false  \
           --header='accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8' \
           --header='accept-language: zh-CN,zh;q=0.9,zh-TW;q=0.8,en;q=0.7,ja;q=0.6,eo;q=0.5' \
           --header='cache-control: no-cache' \
@@ -103,7 +103,7 @@ jobs:
       run: |
         python aria.py -uid ${{ inputs.UID }} -c ${{ secrets.COOKIE }} -m subscribe
         cd image
-        bash ../retry.sh aria2c -c --input-file=urllist.txt --continue=true --conditional-get=true --allow-overwrite=false --auto-file-renaming=false -s=1  \
+        bash ../retry.sh aria2c -c --input-file=urllist.txt --continue=true --conditional-get=true --allow-overwrite=false --auto-file-renaming=false  \
           --header='accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8' \
           --header='accept-language: zh-CN,zh;q=0.9,zh-TW;q=0.8,en;q=0.7,ja;q=0.6,eo;q=0.5' \
           --header='cache-control: no-cache' \
