@@ -29,7 +29,22 @@ jobs:
       run: |
         python aria.py -uid ${{ secrets.UID }} -c ${{ secrets.COOKIE }} --tag 未分類
         cd image
-        bash ../retry.sh aria2c -c --input-file=urllist.txt --continue=true --conditional-get=true --allow-overwrite=false --auto-file-renaming=false
+        bash ../retry.sh aria2c -c --input-file=urllist.txt --continue=true --conditional-get=true --allow-overwrite=false --auto-file-renaming=false  \
+          --header='accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8' \
+          --header='accept-language: zh-CN,zh;q=0.9,zh-TW;q=0.8,en;q=0.7,ja;q=0.6,eo;q=0.5' \
+          --header='cache-control: no-cache' \
+          --header='dnt: 1' \
+          --header='pragma: no-cache' \
+          --header='priority: i' \
+          --header='referer: https://www.pixiv.net/' \
+          --header='sec-ch-ua: "Not(A:Brand";v="99", "Google Chrome";v="133", "Chromium";v="133"' \
+          --header='sec-ch-ua-mobile: ?0' \
+          --header='sec-ch-ua-platform: "Windows"' \
+          --header='sec-fetch-dest: image' \
+          --header='sec-fetch-mode: no-cors' \
+          --header='sec-fetch-site: cross-site' \
+          --header='sec-fetch-storage-access: none' \
+          --header='user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36'
         rm -rf urllist.txt
     
     - name: Gif find
@@ -44,7 +59,22 @@ jobs:
       if:  ${{ steps.gif-check.outputs.GIF_CONTROL == 'true' }}
       run: |
         cd image
-        bash ../retry.sh aria2c -c --input-file=gifs.txt --continue=true --conditional-get=true --allow-overwrite=false --auto-file-renaming=false
+        bash ../retry.sh aria2c -c --input-file=gifs.txt --continue=true --conditional-get=true --allow-overwrite=false --auto-file-renaming=false  \
+          --header='accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8' \
+          --header='accept-language: zh-CN,zh;q=0.9,zh-TW;q=0.8,en;q=0.7,ja;q=0.6,eo;q=0.5' \
+          --header='cache-control: no-cache' \
+          --header='dnt: 1' \
+          --header='pragma: no-cache' \
+          --header='priority: i' \
+          --header='referer: https://www.pixiv.net/' \
+          --header='sec-ch-ua: "Not(A:Brand";v="99", "Google Chrome";v="133", "Chromium";v="133"' \
+          --header='sec-ch-ua-mobile: ?0' \
+          --header='sec-ch-ua-platform: "Windows"' \
+          --header='sec-fetch-dest: image' \
+          --header='sec-fetch-mode: no-cors' \
+          --header='sec-fetch-site: cross-site' \
+          --header='sec-fetch-storage-access: none' \
+          --header='user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36'
         rm -rf gifs.txt
       
     - name: Upload tmp Imgae
