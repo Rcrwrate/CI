@@ -29,19 +29,20 @@ jobs:
           pip install requests
           pip install pycryptodome
           python C.py --public "${{ secrets.PUBLIC }}" --private "${{ secrets.PRIVATE }}" --mode jiemi --type rclone
-          choco install ffmpeg -y
-          choco install rclone -y 
+          sudo apt update
+          sudo apt install ffmpeg -y
+          sudo -v ; curl https://rclone.org/install.sh | sudo bash
 
 
       # - name: Refreshenv
       #   continue-on-error: true
       #   run: refreshenv
 
-      - name: Refreshenv
-        continue-on-error: true
-        run: |
-          Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1
-          refreshenv
+      # - name: Refreshenv
+      #   continue-on-error: true
+      #   run: |
+      #     Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1
+      #     refreshenv
       
       - name: Download Artifacts
         uses: actions/download-artifact@v4
