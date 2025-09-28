@@ -16,7 +16,7 @@ on:
 
 jobs:
   Pixiv-GIF:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - name: checkout main
         uses: actions/checkout@v2
