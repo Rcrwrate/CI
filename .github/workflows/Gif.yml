@@ -54,7 +54,7 @@ jobs:
         continue-on-error: true
         run: |
           python gif.py --mode run
-          bash gif.sh
+          bash gif.sh "./image/"
       
       - name: Upload
         if: startsWith( inputs.upload-path, 'Upload' )
