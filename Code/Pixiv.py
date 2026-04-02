@@ -5,6 +5,7 @@ import re
 class Pixiv():
     "https://sirin.coding.net/public/api/Pixiv/git/files/master/method.py"
 
+    base = "https://www.pixiv.net/"
     header = {
         # "Host": "www.pixiv.net",
         "referer": "https://www.pixiv.net/",
@@ -37,7 +38,7 @@ class Pixiv():
     #         url, headers={"Accept": "application/dns-json"}, noDefaultHeader=True)
 
     def notification(self):
-        url = "https://www.pixiv.net/ajax/notification"
+        url = f"{self.base}ajax/notification"
         return self.get(url)
 
     def check_login_state(self) -> bool:
@@ -51,29 +52,29 @@ class Pixiv():
         return r == self.Logined
 
     def get_by_pid(self, pid):
-        url = f"https://www.pixiv.net/ajax/illust/{pid}"
+        url = f"{self.base}ajax/illust/{pid}"
         return self.get(url)
 
     def geturls_by_pid(self, pid):
-        url = f"https://www.pixiv.net/ajax/illust/{pid}/pages"
+        url = f"{self.base}ajax/illust/{pid}/pages"
         return self.get(url)
 
     def get_by_uid(self, uid):
-        url = f"https://www.pixiv.net/ajax/user/{uid}/profile/top?lang=zh"
+        url = f"{self.base}ajax/user/{uid}/profile/top?lang=zh"
         return self.get(url)
 
     def get_all_by_uid(self, uid):
-        url = f"https://www.pixiv.net/ajax/user/{uid}/profile/all?lang=zh"
+        url = f"{self.base}ajax/user/{uid}/profile/all?lang=zh"
         return self.get(url)
 
     def get_by_Nid(self, NoverID):
-        url = f"https://www.pixiv.net/ajax/novel/{NoverID}?lang=zh"
+        url = f"{self.base}ajax/novel/{NoverID}?lang=zh"
         return self.get(url)
 
     def get_bookmarks_by_uid(self, uid, tag="", p=0, limit=48):
         "tag是分类，默认未分类"
         offset = p * limit
-        url = f"https://www.pixiv.net/ajax/user/{uid}/illusts/bookmarks?tag={tag}&offset={offset}&limit={limit}&rest=show&lang=zh"
+        url = f"{self.base}ajax/user/{uid}/illusts/bookmarks?tag={tag}&offset={offset}&limit={limit}&rest=show&lang=zh"
         return self.get(url)
 
     def get_bookmarks_all(self, uid, tag=""):
@@ -89,7 +90,7 @@ class Pixiv():
         return fin
 
     def remove_bookmark(self, bookmarkid, tag: list = ["save"]):
-        url = "https://www.pixiv.net/ajax/illusts/bookmarks/remove_tags"
+        url = f"{self.base}ajax/illusts/bookmarks/remove_tags"
         r = self.s.post(url, json={"removeTags": tag,
                                    "bookmarkIds": [str(bookmarkid)]}, headers={"x-csrf-token": self.csrf}
                         ).json()
@@ -99,7 +100,7 @@ class Pixiv():
         return r["error"] == False
 
     def add_bookmark(self, bookmarkid, tag: list = ["saved"]):
-        url = "https://www.pixiv.net/ajax/illusts/bookmarks/add_tags"
+        url = f"{self.base}ajax/illusts/bookmarks/add_tags"
         r = self.s.post(url, json={"tags": tag,
                                    "bookmarkIds": [str(bookmarkid)]}, headers={"x-csrf-token": self.csrf}
                         ).json()
@@ -124,10 +125,10 @@ class Pixiv():
     def get_csrf(self):
         if self.csrf != None:
             return self.csrf
-        r = self.s.get("https://www.pixiv.net/").text
+        r = self.s.get(f"{self.base}").text
         self.csrf = re.findall(r'{\\"token\\":\\"([\s\S]+?)\\"', r)[0]
         return self.csrf
 
     def get_gif_by_PID(self, PID):
-        url = f"https://www.pixiv.net/ajax/illust/{PID}/ugoira_meta?lang=zh"
+        url = f"{self.base}ajax/illust/{PID}/ugoira_meta?lang=zh"
         return self.get(url)
